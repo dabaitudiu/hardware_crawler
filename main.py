@@ -123,6 +123,9 @@ def retrieve_once(product_name, possible_products):
                     if price_tag else None
                 )
 
+                # asin
+                asin = product.get("data-asin", "unknown_asin")
+
                 # 提取商品链接
                 link_tag = product.select_one("a.a-link-normal")
                 link = f"https://www.amazon.sg{link_tag['href']}" if link_tag else None
@@ -154,7 +157,8 @@ def retrieve_once(product_name, possible_products):
         for group, products in grouped_products.items():
             logging.info(f"分组: {group}")
             for product in products:
-                logging.info(f"  商品名称: {product['title']}, 价格: S${product['price']:.2f}, 链接: {product['link']}")
+                logging.info(
+                    f"  商品名称: {product['title']}, id: {asin},  价格: S${product['price']:.2f}, 链接: {product['link']}")
 
         logging.info(f"{product_name}子任务总耗时: {time.time() - sub_task_start_time :.2f}s")
 
